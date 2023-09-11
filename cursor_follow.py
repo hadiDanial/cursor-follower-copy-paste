@@ -7,6 +7,9 @@ import pygetwindow as gw
 import pyautogui
 import subprocess
 
+# Built to .exe with the following command:
+# pyinstaller --onefile --noconsole p:/path/to/script/cursor_follow.py 
+# need to install modules with pip: pyinstaller, pygetwindow, pyautogui
 
 app = tk.Tk()
 app.title("")  # Set an empty string for the title to hide it
