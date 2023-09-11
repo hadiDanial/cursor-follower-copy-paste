@@ -61,7 +61,7 @@ def start_mouse_check_thread():
 
 
 def copy_file():
-    cmd = "Get-Item -LiteralPath {} | Set-Clipboard".format(file_path)
+    cmd = "Get-Item -LiteralPath \"{}\" | Set-Clipboard".format(file_path)
     print(cmd)
     subprocess.run(["powershell", "-command", cmd], shell=True)
 
