@@ -38,28 +38,41 @@ def update_position():
     app.geometry(f"+{x+2}+{y+2}")  # Move the app to the cursor's position
     app.after(10, update_position)
 
-initial_mouse_state = ctypes.windll.user32.GetAsyncKeyState(0x01)
+import time
+
+# Initialize the initial mouse state
+initial_mouse_state = None
 
 def check_mouse_state():
     global initial_mouse_state
     
+    # Add a delay to avoid checking the initial state too quickly
+    time.sleep(0.1)
+    
+    # Get the initial mouse state after the delay
+    initial_mouse_state = ctypes.windll.user32.GetAsyncKeyState(0x01)
+    print(initial_mouse_state)
+    isActive = True
     while True:
         # Check the current state of the left mouse button
         current_mouse_state = ctypes.windll.user32.GetAsyncKeyState(0x01)
-        
+
         # Compare the current state to the initial state
         if current_mouse_state != initial_mouse_state:
+            print(current_mouse_state)
             # The mouse state has changed, trigger your function here
-            if current_mouse_state != 0:
+            if current_mouse_state  == 32769 or current_mouse_state == 0 and isActive:
                 # Mouse button pressed
-                print("Mouse button pressed")
-            else:
-                # Mouse button released
-                print("Mouse button released")
+                print("Mouse button pressed or released")
+                isActive = False
+                copy_file()
+                paste()
+                app.quit()
+                # Call your function when the button is pressed
             
             # Update the initial state
-            copy_file()
-            paste()
+            initial_mouse_state = current_mouse_state
+
 
 def start_mouse_check_thread():
     mouse_check_thread = threading.Thread(target=check_mouse_state)
@@ -73,8 +86,7 @@ def copy_file():
     # print(cmd)
     subprocess.run(["powershell", "-command", cmd], shell=True)
 
-def click(event):
-    print("click")
+
 def paste():
     import pyautogui
     # import pygetwindow as gw
@@ -97,8 +109,6 @@ def handle_key_event(event):
     app.quit()  # Quit the application when a key is pressed
 
 update_position()
-app.bind("<1>", click)
-app.bind("<ButtonRelease-1>", click)
 app.bind_all("<Escape>", handle_key_event)  # Bind all key presses to the handle_key_event function
 start_mouse_check_thread()
 app.mainloop()
