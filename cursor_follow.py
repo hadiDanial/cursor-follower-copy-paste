@@ -66,17 +66,18 @@ def copy_file():
 
 def paste():
     import pyautogui
-    import pygetwindow as gw
+    # import pygetwindow as gw
 
     # Get the active window
-    active_window = gw.getActiveWindow()
+    pyautogui.leftClick()
+    # active_window = gw.getActiveWindow()
+    pyautogui.hotkey('ctrl', 'v')  # Use 'command' on macOS
+    # # if active_window:
     # if active_window:
-    if active_window:
-        print(active_window)
-        active_window.activate()
-        pyautogui.hotkey('ctrl', 'v')  # Use 'command' on macOS
-    else:
-        print("No active window found.")
+    #     print(active_window)
+    #     active_window.activate()
+    # else:
+    #     print("No active window found.")
 
 def handle_key_event(event):
     app.quit()  # Quit the application when a key is pressed
