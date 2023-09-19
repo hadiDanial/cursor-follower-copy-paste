@@ -38,18 +38,28 @@ def update_position():
     app.geometry(f"+{x+2}+{y+2}")  # Move the app to the cursor's position
     app.after(10, update_position)
 
+initial_mouse_state = ctypes.windll.user32.GetAsyncKeyState(0x01)
+
 def check_mouse_state():
-    global mouse_button_pressed
+    global initial_mouse_state
+    
     while True:
-        # Check if the left mouse button is pressed
-        if ctypes.windll.user32.GetAsyncKeyState(0x01) != 0:
-            mouse_button_pressed = True
-        else:
-            if mouse_button_pressed:
-                copy_file()
-                paste()
-                app.quit()  # Quit the application when the mouse button is released
-            mouse_button_pressed = False
+        # Check the current state of the left mouse button
+        current_mouse_state = ctypes.windll.user32.GetAsyncKeyState(0x01)
+        
+        # Compare the current state to the initial state
+        if current_mouse_state != initial_mouse_state:
+            # The mouse state has changed, trigger your function here
+            if current_mouse_state != 0:
+                # Mouse button pressed
+                print("Mouse button pressed")
+            else:
+                # Mouse button released
+                print("Mouse button released")
+            
+            # Update the initial state
+            copy_file()
+            paste()
 
 def start_mouse_check_thread():
     mouse_check_thread = threading.Thread(target=check_mouse_state)
@@ -60,10 +70,11 @@ def start_mouse_check_thread():
 def copy_file():
     import subprocess
     cmd = "Get-Item -LiteralPath \"{}\" | Set-Clipboard".format(file_path)
-    print(cmd)
+    # print(cmd)
     subprocess.run(["powershell", "-command", cmd], shell=True)
 
-
+def click(event):
+    print("click")
 def paste():
     import pyautogui
     # import pygetwindow as gw
@@ -72,6 +83,8 @@ def paste():
     pyautogui.leftClick()
     # active_window = gw.getActiveWindow()
     pyautogui.hotkey('ctrl', 'v')  # Use 'command' on macOS
+    app.quit()  # Quit the application when the mouse button is released
+
     # # if active_window:
     # if active_window:
     #     print(active_window)
@@ -80,9 +93,12 @@ def paste():
     #     print("No active window found.")
 
 def handle_key_event(event):
+    print("EXIT")
     app.quit()  # Quit the application when a key is pressed
 
 update_position()
+app.bind("<1>", click)
+app.bind("<ButtonRelease-1>", click)
+app.bind_all("<Escape>", handle_key_event)  # Bind all key presses to the handle_key_event function
 start_mouse_check_thread()
-app.bind_all("<Escape>", handle_key_event)  # Bind all key presses to the handle_key_event functiondecrypted.pdf
 app.mainloop()
