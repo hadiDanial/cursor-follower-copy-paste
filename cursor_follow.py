@@ -2,10 +2,6 @@ import tkinter as tk
 import ctypes
 import threading
 import ctypes.wintypes
-import sys
-import pygetwindow as gw
-import pyautogui
-import subprocess
 
 # Built to .exe with the following command:
 # pyinstaller --onefile --noconsole p:/path/to/script/cursor_follow.py 
@@ -28,6 +24,7 @@ background_label.place(relwidth=1, relheight=1)
 # Global variable to track mouse button state
 mouse_button_pressed = False
 file_path = ""
+import sys
 if len(sys.argv) > 1:
     file_path = sys.argv[1]  # The first argument (index 0) is the script name
 else:
@@ -61,12 +58,16 @@ def start_mouse_check_thread():
 
 
 def copy_file():
+    import subprocess
     cmd = "Get-Item -LiteralPath \"{}\" | Set-Clipboard".format(file_path)
     print(cmd)
     subprocess.run(["powershell", "-command", cmd], shell=True)
 
 
 def paste():
+    import pyautogui
+    import pygetwindow as gw
+
     # Get the active window
     active_window = gw.getActiveWindow()
     # if active_window:
