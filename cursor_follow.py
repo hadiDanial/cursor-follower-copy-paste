@@ -67,6 +67,7 @@ def check_mouse_state():
                 isActive = False
                 copy_file()
                 paste()
+                time.sleep(2)
                 app.quit()
                 # Call your function when the button is pressed
             
@@ -95,7 +96,6 @@ def paste():
     pyautogui.leftClick()
     # active_window = gw.getActiveWindow()
     pyautogui.hotkey('ctrl', 'v')  # Use 'command' on macOS
-    app.quit()  # Quit the application when the mouse button is released
 
     # # if active_window:
     # if active_window:
