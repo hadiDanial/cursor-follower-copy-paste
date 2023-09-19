@@ -84,5 +84,5 @@ def handle_key_event(event):
 
 update_position()
 start_mouse_check_thread()
-app.bind_all("<Key>", handle_key_event)  # Bind all key presses to the handle_key_event functiondecrypted.pdf
+app.bind_all("<Escape>", handle_key_event)  # Bind all key presses to the handle_key_event functiondecrypted.pdf
 app.mainloop()
