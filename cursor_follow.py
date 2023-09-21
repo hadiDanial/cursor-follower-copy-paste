@@ -67,8 +67,8 @@ def check_mouse_state():
                 isActive = False
                 copy_file()
                 paste()
-                time.sleep(2)
-                app.quit()
+                time.sleep(1)
+                # app.quit()
                 # Call your function when the button is pressed
             
             # Update the initial state
@@ -90,19 +90,11 @@ def copy_file():
 
 def paste():
     import pyautogui
-    # import pygetwindow as gw
 
-    # Get the active window
-    pyautogui.leftClick()
+    pyautogui.click()
+    time.sleep(0.1)
     # active_window = gw.getActiveWindow()
     pyautogui.hotkey('ctrl', 'v')  # Use 'command' on macOS
-
-    # # if active_window:
-    # if active_window:
-    #     print(active_window)
-    #     active_window.activate()
-    # else:
-    #     print("No active window found.")
 
 def handle_key_event(event):
     print("EXIT")
