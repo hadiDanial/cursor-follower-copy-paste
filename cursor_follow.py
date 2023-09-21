@@ -59,15 +59,15 @@ def check_mouse_state():
 
         # Compare the current state to the initial state
         if current_mouse_state != initial_mouse_state:
-            print(current_mouse_state)
+            # print(current_mouse_state)
             # The mouse state has changed, trigger your function here
             if current_mouse_state  == 32769 or current_mouse_state == 0 and isActive:
                 # Mouse button pressed
-                print("Mouse button pressed or released")
+                # print("Mouse button pressed or released")
                 isActive = False
                 copy_file()
                 paste()
-                time.sleep(1)
+                time.sleep(0.2)
                 app.quit()
                 # Call your function when the button is pressed
             
@@ -92,6 +92,7 @@ def paste():
     import pyautogui
 
     pyautogui.click()
+    pyautogui.leftClick()
     time.sleep(0.1)
     # active_window = gw.getActiveWindow()
     pyautogui.hotkey('ctrl', 'v')  # Use 'command' on macOS
