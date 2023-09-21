@@ -68,7 +68,7 @@ def check_mouse_state():
                 copy_file()
                 paste()
                 time.sleep(1)
-                # app.quit()
+                app.quit()
                 # Call your function when the button is pressed
             
             # Update the initial state
